@@ -5703,7 +5703,7 @@ GameObject:
   - component: {fileID: 1290521262}
   m_Layer: 0
   m_Name: Enemy3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5717,7 +5717,7 @@ Transform:
   m_GameObject: {fileID: 1290521260}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.28679433, z: -0, w: 0.9579922}
-  m_LocalPosition: {x: -408.25, y: -29.45, z: 341.85}
+  m_LocalPosition: {x: -415.63, y: -29.45, z: 340.19}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5799,6 +5799,7 @@ MonoBehaviour:
   patrolSpeed: 3
   patrolWaitTime: 2
   followSound: {fileID: 8300000, guid: b81edce11cdcf6f4486376f5db873e30, type: 3}
+  minEnemyDistance: 3
 --- !u!136 &1290521265
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5889,7 +5890,7 @@ GameObject:
   - component: {fileID: 1297326310}
   m_Layer: 0
   m_Name: Enemy2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5985,6 +5986,7 @@ MonoBehaviour:
   patrolSpeed: 3
   patrolWaitTime: 2
   followSound: {fileID: 8300000, guid: b81edce11cdcf6f4486376f5db873e30, type: 3}
+  minEnemyDistance: 3
 --- !u!136 &1297326313
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6308,7 +6310,7 @@ GameObject:
   - component: {fileID: 1405828388}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6334,6 +6336,7 @@ MonoBehaviour:
   patrolSpeed: 3
   patrolWaitTime: 2
   followSound: {fileID: 8300000, guid: b81edce11cdcf6f4486376f5db873e30, type: 3}
+  minEnemyDistance: 3
 --- !u!136 &1405828383
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6416,7 +6419,7 @@ Transform:
   m_GameObject: {fileID: 1405828380}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.28679433, z: -0, w: 0.9579922}
-  m_LocalPosition: {x: -404.91388, y: -29.371513, z: 360.6221}
+  m_LocalPosition: {x: -417.77, y: -29.371513, z: 376.03}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
