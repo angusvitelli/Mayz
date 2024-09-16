@@ -20,6 +20,8 @@ public class EnemyFollow : MonoBehaviour
     private bool waiting = false;           // Flag to check if the enemy is waiting at a patrol point
     private AudioSource audioSource;        // Reference to the AudioSource 
 
+    public float minEnemyDistance = 3f;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -30,13 +32,10 @@ public class EnemyFollow : MonoBehaviour
 
     void Update()
     {
-        // Check if the player reference is not null
         if (player != null)
         {
-            // Calculate the distance between the enemy and the player
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            // Check if the distance is within the follow range
             if (distanceToPlayer <= followRange)
             {
                 if (!isFollowing) // Play the sound only when AI starts following
@@ -44,28 +43,13 @@ public class EnemyFollow : MonoBehaviour
                     audioSource.PlayOneShot(followSound);
                 }
 
-                isFollowing = true; // Set the flag to indicate following the player
-
-                // Calculate the direction from the enemy to the player
-                Vector3 direction = player.position - transform.position;
-                direction.Normalize();
-
-                // Rotate the enemy to face the player
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
-                // Move the enemy towards the player
-                agent.speed = speed;
-                agent.destination = player.position;
+                isFollowing = true;
+                FollowPlayer();
             }
             else
             {
-                isFollowing = false; // Stop following the player and resume patrolling
-
-                if (!waiting && !agent.pathPending && agent.remainingDistance < 0.5f)
-                {
-                    StartCoroutine(WaitAndGoToNextPoint());
-                }
+                isFollowing = false;
+                PatrolArea();
             }
         }
     }
@@ -80,11 +64,52 @@ public class EnemyFollow : MonoBehaviour
         currentPoint = (currentPoint + 1) % patrolPoints.Length;
     }
 
+    bool IsAnotherEnemyTooClose()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, minEnemyDistance);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Enemy") && hitCollider.gameObject != this.gameObject)
+            {
+                return true; // Another enemy is too close
+            }
+        }
+        return false; // No nearby enemies
+    }
+
     IEnumerator WaitAndGoToNextPoint()
     {
         waiting = true;
         yield return new WaitForSeconds(patrolWaitTime); // Wait at the current patrol point
         waiting = false;
         GoToNextPatrolPoint();
+    }
+
+    void PatrolArea()
+    {
+        if (!waiting && !agent.pathPending && agent.remainingDistance < 0.5f)
+        {
+            if (IsAnotherEnemyTooClose())
+            {
+                // Optionally wait or move to a different point if another enemy is too close
+                StartCoroutine(WaitAndGoToNextPoint());
+            }
+            else
+            {
+                GoToNextPatrolPoint();
+            }
+        }
+    }
+
+    void FollowPlayer()
+    {
+        Vector3 direction = player.position - transform.position;
+        direction.Normalize();
+
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+
+        agent.speed = speed;
+        agent.destination = player.position;
     }
 }

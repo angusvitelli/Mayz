@@ -8,6 +8,7 @@ TagManager:
   - Wood
   - Maze
   - AudioSource
+  - Enemy
   layers:
   - Default
   - TransparentFX
