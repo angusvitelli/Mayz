@@ -10,7 +10,7 @@ public class EnemyFollow : MonoBehaviour
     public float followRange = 10f;         // Range within which the enemy starts following
     public float rotationSpeed = 5f;        // Speed of the enemy's rotation
     public Transform[] patrolPoints;        // Array of waypoints for patrolling
-    public float patrolSpeed = 3f;          // Speed at which the enemy patrols
+    public float patrolSpeed = 2f;          // Speed at which the enemy patrols
     public float patrolWaitTime = 2f;       // Time to wait at each patrol point
     public AudioClip followSound; 
 
@@ -64,41 +64,9 @@ public class EnemyFollow : MonoBehaviour
         currentPoint = (currentPoint + 1) % patrolPoints.Length;
     }
 
-    bool IsAnotherEnemyTooClose()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, minEnemyDistance);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Enemy") && hitCollider.gameObject != this.gameObject)
-            {
-                return true; // Another enemy is too close
-            }
-        }
-        return false; // No nearby enemies
-    }
-
-    IEnumerator WaitAndGoToNextPoint()
-    {
-        waiting = true;
-        yield return new WaitForSeconds(patrolWaitTime); // Wait at the current patrol point
-        waiting = false;
-        GoToNextPatrolPoint();
-    }
-
     void PatrolArea()
     {
-        if (!waiting && !agent.pathPending && agent.remainingDistance < 0.5f)
-        {
-            if (IsAnotherEnemyTooClose())
-            {
-                // Optionally wait or move to a different point if another enemy is too close
-                StartCoroutine(WaitAndGoToNextPoint());
-            }
-            else
-            {
-                GoToNextPatrolPoint();
-            }
-        }
+        GoToNextPatrolPoint();
     }
 
     void FollowPlayer()
