@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        // Initialize text with empty or default message
         if (canvasGroup != null)
         {
              canvasGroup.alpha = 0f;
@@ -22,8 +21,7 @@ public class UIManager : MonoBehaviour
     public IEnumerator FadeInThenOut()
     {
         yield return StartCoroutine(FadeInText());
-        // Wait for the fade-in to complete before starting the fade-out
-        yield return new WaitForSeconds(3f); // Optional delay between fade-in and fade-out
+        yield return new WaitForSeconds(3f);
         yield return StartCoroutine(FadeOutText());
     }
 
