@@ -8,10 +8,18 @@ public class FinishFeature : MonoBehaviour
     public GameObject enemy;
     public GameObject enemy2;
     public GameObject enemy3;
+    public GameObject cricketsound;
+    public AudioClip winSound;
     public Material daySkyboxMaterial;
     public Material nightSkyboxMaterial;
+    private AudioSource audioSource; 
     public float lightIntense = 10.0f;
     
+    void Start()
+    {
+        audioSource = GetComponentInChildren<AudioSource>();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -23,6 +31,8 @@ public class FinishFeature : MonoBehaviour
                 Destroy(enemy);
                 Destroy(enemy2);
                 Destroy(enemy3);
+                Destroy(cricketsound);
+                audioSource.PlayOneShot(winSound);
             }
         }
     }
